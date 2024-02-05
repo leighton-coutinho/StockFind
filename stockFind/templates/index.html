@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+
+{% block head_content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stocks.css') }}" />
+{% endblock %}
+
+{% block main_content %}
+    <script type="text/javascript">
+        function loadSentimentData() {
+            fetch('/get-sentiment-data')
+                .then(response => response.json())
+                .then(data => {
+                    var stockTableBody = document.getElementById('stockTableBody');
+                    stockTableBody.innerHTML = ''; // Clear existing content
+                    data.forEach((sentiment, index) => {
+                        let row = stockTableBody.insertRow();
+                        
+                        // Create and style the stock cell
+                        let stockCell = row.insertCell(0);
+                        stockCell.className = 'table__cell'; // Apply the class to the cell
+                        let stockTitle = document.createElement('p');
+                        stockTitle.className = 'table__stockTitle';
+                        stockTitle.textContent = sentiment[0]; // Assuming sentiment[0] is the ticker
+                        let stockDirector = document.createElement('p');
+                        stockDirector.className = 'table__stockDirector';
+                        stockDirector.textContent = sentiment[3]; // Modify as needed
+                        stockCell.appendChild(stockTitle);
+                        stockCell.appendChild(stockDirector);
+
+                        // Create and style the sentiment cell
+                        let sentimentCell = row.insertCell(1);
+                        sentimentCell.className = 'table__cell'; // Apply the class to the cell
+                        sentimentCell.textContent = sentiment[1]; // Assuming sentiment[1] is the sentiment value
+
+                        // Create and style the link cell
+                        let linkCell = row.insertCell(2);
+                        linkCell.className = 'table__cell'; // Apply the class to the cell
+                        let link = document.createElement('a');
+                        link.href = `/stock/${sentiment[2]}`; // Assuming sentiment[2] is the stock ID
+                        link.textContent = 'View';
+                        link.className = 'table__link';
+                        linkCell.appendChild(link);
+                    });
+
+
+                    // Hide loading indicator and show main content
+                    document.getElementById('loadingIndicator').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Add any error handling logic here
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSentimentData();
+        });
+    </script>
+
+    <!-- Loading Indicator -->
+    <div id="loadingIndicator">
+    </div>
+
+    {%- if Stock_data %}
+    <table class="table">
+        <colgroup>
+            <col style="width: 60%">
+            <col style="width: 25%">
+            <col style="width: 15%">
+        </colgroup>
+        <thead>
+            <tr class="table__header">
+                <th class="table__cell table__cell--header">Stock</th>
+                <th class="table__cell table__cell--header">Sentiment</th>
+                <th class="table__cell table__cell--header"></th>
+            </tr>
+        </thead>
+        <tbody id="stockTableBody">
+            <!-- Rows will be added here by JavaScript -->
+        </tbody>
+    </table>
+    {% else %}
+        <p class="table__empty">You haven't added any stocks yet. <a href="{{ url_for('pages.add_stock') }}" class="link">Add one!</a></p>
+    {% endif %}
+
+    <a href="{{ url_for('pages.add_stock') }}" class="button button--add">
+        <span>+</span>
+    </a>
+{% endblock %}

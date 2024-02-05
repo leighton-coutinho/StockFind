@@ -1,0 +1,78 @@
+{% from "macros/svgs.html" import star, pencil %}
+
+{% extends "layout.html" %}
+
+{%- block head_content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stock_details.css') }}" />
+{% endblock %}
+
+{% block main_content %}
+<div class="container">
+    <header class="stock__header">
+        <div class="header__row">
+            <div class="stock__name">
+                <h1>{{ stock.ticker }}</h1>
+            </div>
+            <div class="stock__watched">
+                <h4>{{ stock.company }}</h4>
+            </div>
+        </div>
+        <br>
+        <br>
+        <h2 class="table__stockDirector"> Amount Invested: $ {{ stock.amtInvested }}</h4>
+            
+        <br>
+        <br>
+
+                <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+            {
+            "symbols": [
+            [
+                "{{ stock.ticker }}",
+                "{{ stock.ticker }}"
+            ]
+            ],
+            "chartOnly": false,
+            "width": 1000,
+            "height": 500,
+            "locale": "en",
+            "colorTheme": "light",
+            "autosize": false,
+            "showVolume": false,
+            "showMA": false,
+            "hideDateRanges": false,
+            "hideMarketStatus": false,
+            "hideSymbolLogo": false,
+            "scalePosition": "right",
+            "scaleMode": "Normal",
+            "fontFamily": "-apple-system, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif",
+            "fontSize": "10",
+            "noTimeScale": false,
+            "valuesTracking": "1",
+            "changeMode": "price-and-percent",
+            "chartType": "area",
+            "maLineColor": "#2962FF",
+            "maLineWidth": 1,
+            "maLength": 9,
+            "lineWidth": 2,
+            "lineType": 0,
+            "dateRanges": [
+            "1d|1",
+            "1m|30",
+            "3m|60",
+            "12m|1D",
+            "60m|1W",
+            "all|1M"
+            ]
+        }
+            </script>
+        </div>
+        <!-- TradingView Widget END -->
+        
+    </header>
+</div>
+{% endblock %}

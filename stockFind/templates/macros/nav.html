@@ -1,0 +1,59 @@
+{% from "macros/svgs.html" import moon, sun %}
+
+{% macro header(email, theme) %}
+<header class="header">
+    <div class="nav-container">
+        <a href="{{ url_for('pages.index') }}" class="header__logo">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trending-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 17l6 -6l4 4l8 -8" /><path d="M14 7l7 0l0 7" /></svg>
+             <span class="logo__name">StockFind</span>
+        </a>
+        <nav class="nav">
+            {%- if not email %}
+                <a
+                    href="{{ url_for('pages.login') }}"
+                    class="nav__link {{ 'nav__link--active' if request.path == url_for('pages.login') }}"
+                >
+                    <span class="nav__item">Log in</span>
+                </a>
+                <a
+                    href="{{ url_for('pages.register') }}"
+                    class="nav__link {{ 'nav__link--active' if request.path == url_for('pages.register') }}"
+                >
+                    <span class="nav__item">Register</span>
+                </a>
+            {% else %}
+                <a 
+                    href="{{ url_for('pages.index') }}"
+                    class="nav__link {{ 'nav__link--active' if request.path == url_for('pages.index') }}"
+                >
+                    <span class="nav__item">| My Stocks |</span>
+                </a>
+                <a
+                    href="{{ url_for('pages.analyzeStock') }}"
+                    class="nav__link"
+                >
+                    <span class="nav__item">| Analyze Trending Stocks |</span>
+                </a>
+                <a
+                    href="{{ url_for('pages.logout') }}"
+                    class="nav__link"
+                >
+                    <span class="nav__item">| Log out |</span>
+                </a>
+            {% endif %}
+            <a
+                href="{{ url_for('pages.toggle_theme', current_page=request.path) }}"
+                class="nav__link"
+            >
+                <span class="nav__item">
+                    {% if theme == "dark" %}
+                        {{ sun("nav__icon") }}
+                    {% else %}
+                        {{ moon("nav__icon") }}
+                    {% endif %}
+                </span>
+            </a>
+        </nav>
+    </div>
+</header>
+{% endmacro %}

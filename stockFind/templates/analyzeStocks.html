@@ -1,0 +1,104 @@
+{% from "macros/svgs.html" import star, pencil %}
+
+{% extends "layout.html" %}
+
+{%- block head_content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stock_details.css') }}" />
+{% endblock %}
+
+{% block main_content %}
+<script type="text/javascript">
+    function loadStockData() {
+        fetch('/get-stock-data')
+            .then(response => response.json())
+            .then(data => {
+                var stockTableBody = document.getElementById('stockTableBody');
+
+                // Extracting the data from the response
+                var optPort = data[0];
+                var stats = data[1];
+                var stocks = data[2];
+
+                // Dynamically updating the HTML content
+                document.getElementById('percentPort').innerHTML = optPort.join(', ');
+                document.getElementById('retvolsharpe').innerHTML = stats.join(', ');
+                document.getElementById('goodStocks').innerHTML = stocks.join(', ');
+                
+                var dynamicContents = document.querySelectorAll('.dynamic-content');
+                dynamicContents.forEach(function(content) {
+                    content.style.display = 'block'; // Or 'flex' as per your layout needs
+                });
+
+                // Hide loading indicator and show main content
+                document.getElementById('loadingIndicator').style.display = 'none';
+                document.getElementById('elipsis').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Add any error handling logic here
+            });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        loadStockData();
+    });
+</script>
+
+<div id="elipsis">Curently analyzing stocks, this may take a while
+</div>
+
+<div id="loadingIndicator">
+</div>
+
+<!-- Loading Indicator -->
+
+
+
+
+
+<div id="mainContent" class="dynamic-content">
+    <div class="container">
+        <header class="stock__header">
+            <div class="header__row">
+                <div class="stock__name">
+                    <h1> Current Stocks to Analyze</h1>
+                </div>
+                <div id="goodStocks" class="stock__watched">
+                    <h4> {{ goodStocks }}</h4>
+                </div>
+            </div>
+    
+            <br>   
+            <img src={{ stockdata }} alt="Chart" height="500" width="600">
+    
+            <br>
+    
+    
+            <div class="header__row">
+                <div class="stock__name">
+                    <h1> Optimal Portfolio</h1>
+                </div>
+                <div id="percentPort" class="stock__watched">
+                    <h4> {{ percentPort }}</h4>
+                </div>
+            </div>
+                
+    
+                <img src={{ optimalPort }} alt="Chart" height="500" width=600">
+            
+                
+                <div class="header__row">
+                    <div class="stock__name">
+                        <h2> Return, Volatility and Sharpe Ratio</h2>
+                    </div>
+                    <div id="retvolsharpe" class="stock__watched">
+                        <h4> {{ retvolsharpe }}</h4>
+                    </div>
+                </div>        
+        </header>
+    </div>
+</div>
+
+
+{% endblock %}

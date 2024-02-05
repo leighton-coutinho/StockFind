@@ -1,0 +1,1 @@
+web: gunicorn "stockFind:create_app()"

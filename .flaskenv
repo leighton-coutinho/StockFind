@@ -1,0 +1,2 @@
+FLASK_APP=stockFind
+FLASK_ENV=development

@@ -1,0 +1,4 @@
+.env
+/stockFind/__pycache__/
+venv/
+hello-world/
