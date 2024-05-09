@@ -1,5 +1,5 @@
 StockFind is a web application that can be used to watch your current stocks price history and current sentiment using machine learning as well as find new trending stocks that pass a certain criteria.
-
+Ensure to run from outside the stockFind folder i.e from the first StockFind folder, the folder of the entire project when the project is closed
 Once cloned please update:
 
 plt.savefig('C:\\Users\\ljlco\\PycharmProjects\\end\\stockFind\\static\\stockData.png') in line 32 of OptimalPortfolio.py tp a path on your computer
