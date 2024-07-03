@@ -1,5 +1,4 @@
 # StockFind
-https://github.com/leighton-coutinho/StockFind/assets/96268506/aa331c36-6d2a-4a43-87c2-8ded3b65cc37
 
 ## Overview
 StockFind is a comprehensive web application designed to aid investors in identifying financially strong trending stocks and constructing optimal portfolios. The application leverages sentiment analysis and financial metric analysis to provide valuable insights for investment strategy formulation. Built using Python and Flask, StockFind integrates data from Yahoo Finance and Alpha Vantage APIs, and utilizes the nltk library for sentiment analysis.
@@ -32,6 +31,8 @@ StockFind is a comprehensive web application designed to aid investors in identi
 - **Improved Investment Strategies**: Helps investors make informed decisions by identifying financially strong and trending stocks.
 - **Optimal Portfolio Construction**: Assists in constructing portfolios with favorable risk-reward profiles based on the Markowitz Model.
 - **Comprehensive Analysis**: Provides detailed insights into stock performance and sentiment, aiding in strategic investment planning.
+
+  https://github.com/leighton-coutinho/StockFind/assets/96268506/aa331c36-6d2a-4a43-87c2-8ded3b65cc37
 
   
 
